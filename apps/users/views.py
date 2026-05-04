@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from rest_framework.permissions import AllowAny , IsAdminUser
+from rest_framework.permissions import AllowAny , IsAdminUser , IsAuthenticated , TokenAuthentication
 from apps.users.serializers import UserSerializer
 from .models import User
 
@@ -19,3 +19,11 @@ class UserRegisterView(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
+
+
+
+class UserLoginView(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
