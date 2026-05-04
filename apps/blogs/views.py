@@ -10,4 +10,7 @@ class BlogView(viewsets.ModelViewSet):
     queryset = Blog.objects.all()
     serializer_class = BLogSerailizer
 
+
+    
+
     

@@ -15,3 +15,7 @@ class Userview(viewsets.ModelViewSet):
             return [AllowAny()]
         return [IsAdminUser()]
 
+class UserRegisterView(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [AllowAny]
