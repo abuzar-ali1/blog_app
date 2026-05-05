@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework import viewsets
 
-from apps.blogs.models import Blog
-from apps.blogs.serializers import BLogSerailizer
+from apps.blogs.models import Blog, Comment
+from apps.blogs.serializers import BLogSerailizer , CommentSerializer
 from rest_framework.permissions import IsAuthenticated , IsAuthenticatedOrReadOnly
 
 
@@ -15,7 +15,14 @@ class BlogView(viewsets.ModelViewSet):
 
 
 
+class CommentView(viewsets.ModelViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
+    # def get_queryset(self):
+    #     blog_id = self.kwargs['blog_id']
+    #     return Comment.objects.filter(blog_id=blog_id)
     
 
     
