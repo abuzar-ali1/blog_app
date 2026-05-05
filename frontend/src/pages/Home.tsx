@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { apiClient } from '../api/client';
 
-// Define your TypeScript interfaces based on your Django models
 interface Blog {
   id: number;
   title: string;
@@ -18,7 +17,6 @@ export default function Home() {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        // Adjust '/users/' or '/blogs/' based on your actual Django URL configuration
         const response = await apiClient.get('/blogs/'); 
         setBlogs(response.data);
       } catch (err) {
@@ -27,43 +25,92 @@ export default function Home() {
         setLoading(false);
       }
     };
-
     fetchBlogs();
   }, []);
 
-  if (loading) return <div className="text-center text-slate-400 mt-20 animate-pulse">Loading amazing content...</div>;
-  if (error) return <div className="bg-red-900/50 border border-red-500 text-red-200 p-4 rounded text-center">{error}</div>;
-
   return (
-    <div className="space-y-8">
-      <header className="mb-12">
-        <h1 className="text-4xl font-extrabold text-white mb-2">Latest Insights</h1>
-        <p className="text-slate-400 text-lg">Explore the newest engineering ideas and tutorials.</p>
-      </header>
+    <div className="min-h-screen bg-[#0B1120] text-slate-300 pb-20">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden pt-20 pb-16 px-6">
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay"></div>
+        <div className="absolute -top-40 -right-40 h-96 w-96 rounded-full bg-blue-600/20 blur-[100px]"></div>
+        
+        <div className="mx-auto max-w-7xl relative z-10">
+          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6">
+            Architect the <br />
+            <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-teal-400 bg-clip-text text-transparent">
+              Future of Web.
+            </span>
+          </h1>
+          <p className="text-lg md:text-xl text-slate-400 max-w-2xl leading-relaxed">
+            Dive into deep technical tutorials, system architecture breakdowns, and the latest techniques in connecting robust backends with modern intelligent agents.
+          </p>
+        </div>
+      </section>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {blogs.map((blog) => (
-          <article key={blog.id} className="bg-slate-800 rounded-xl border border-slate-700 p-6 hover:border-blue-500/50 hover:shadow-xl hover:shadow-blue-900/20 transition-all group flex flex-col">
-            <h2 className="text-2xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors">
-              {blog.title}
-            </h2>
-            <p className="text-slate-400 mb-6 flex-grow line-clamp-3">
-              {blog.desc}
-            </p>
-            <div className="flex justify-between items-center pt-4 border-t border-slate-700/50">
-              <span className="text-sm text-slate-500 font-medium">
-                {new Date(blog.created_at).toLocaleDateString()}
-              </span>
-              <Link 
-                to={`/blog/${blog.id}`}
-                className="text-sm font-bold text-blue-500 hover:text-blue-400"
+      {/* Main Content */}
+      <main className="mx-auto max-w-7xl px-6">
+        <div className="flex items-center justify-between mb-8 border-b border-slate-800 pb-4">
+          <h2 className="text-2xl font-bold text-slate-100">Latest Publications</h2>
+          <span className="text-sm font-medium text-slate-500">{blogs.length} Articles</span>
+        </div>
+
+        {/* Status States */}
+        {loading && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[1, 2, 3].map((n) => (
+              <div key={n} className="h-64 rounded-2xl bg-slate-800/50 animate-pulse border border-slate-700/50"></div>
+            ))}
+          </div>
+        )}
+        
+        {error && (
+          <div className="rounded-xl border border-red-500/30 bg-red-500/10 p-6 text-center text-red-400">
+            <p className="font-medium">{error}</p>
+          </div>
+        )}
+
+        {/* Blog Grid */}
+        {!loading && !error && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {blogs.map((blog) => (
+              <article 
+                key={blog.id} 
+                className="group relative flex flex-col justify-between rounded-2xl border border-slate-700/60 bg-slate-800/40 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-500/50 hover:bg-slate-800/80 hover:shadow-2xl hover:shadow-blue-900/20"
               >
-                Read Article →
-              </Link>
-            </div>
-          </article>
-        ))}
-      </div>
+                <div>
+                  <div className="mb-4 flex items-center gap-3">
+                    <span className="inline-flex items-center rounded-full bg-blue-500/10 px-2.5 py-0.5 text-xs font-semibold text-blue-400">
+                      Engineering
+                    </span>
+                    <span className="text-xs text-slate-500">
+                      {new Date(blog.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                    </span>
+                  </div>
+                  <h3 className="mb-3 text-xl font-bold text-slate-100 leading-tight group-hover:text-blue-400 transition-colors">
+                    {blog.title}
+                  </h3>
+                  <p className="line-clamp-3 text-sm text-slate-400 leading-relaxed">
+                    {blog.desc}
+                  </p>
+                </div>
+                
+                <div className="mt-6 pt-4 border-t border-slate-700/50">
+                  <Link 
+                    to={`/blog/${blog.id}`}
+                    className="inline-flex items-center text-sm font-semibold text-slate-300 group-hover:text-blue-400 transition-colors"
+                  >
+                    Read full article 
+                    <svg className="ml-1 h-4 w-4 transform transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                  </Link>
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
+      </main>
     </div>
   );
 }
