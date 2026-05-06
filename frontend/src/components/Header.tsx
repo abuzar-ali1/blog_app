@@ -6,15 +6,12 @@ export default function Header() {
   const { isAuthenticated, username, logout } = useAuth();
   const navigate = useNavigate();
   
-  // State for the profile dropdown menu
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Extract the first letter for the Avatar (e.g., 'A' for Abuzar)
   const avatarLetter = username ? username.charAt(0).toUpperCase() : 'U';
   console.log(username, avatarLetter); // Debugging line to check username and avatar letter
 
-  // Senior Dev Polish: Close dropdown if user clicks outside of it
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -45,12 +42,7 @@ export default function Header() {
             </span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
-            <Link to="/" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">Articles</Link>
-            <Link to="/topics" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">Machine Learning</Link>
-            <Link to="/about" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">About</Link>
-          </nav>
+        
 
           {/* Action Buttons & Auth Logic */}
           <div className="flex items-center gap-4">
