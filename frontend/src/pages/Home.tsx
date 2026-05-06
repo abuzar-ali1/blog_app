@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { apiClient } from '../api/client';
+import LottieDefault from 'lottie-react';
+import animationData from '../assets/hero-animation.json';
+
+// Safely extracts the component whether Vite wraps it in an object or not
+const LottiePlayer = (LottieDefault as any).default || LottieDefault;
 
 interface Blog {
   id: number;
@@ -30,32 +35,40 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[#0B1120] text-slate-300 pb-20">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden pt-20 pb-16 px-6">
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay"></div>
+      <section className="relative overflow-hidden pt-20 pb-16 px-6 bg-slate-900">
         <div className="absolute -top-40 -right-40 h-96 w-96 rounded-full bg-blue-600/20 blur-[100px]"></div>
         
-        <div className="mx-auto max-w-7xl relative z-10">
-          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6">
-            Architect the <br />
-            <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-teal-400 bg-clip-text text-transparent">
-              Future of Web.
-            </span>
-          </h1>
-          <p className="text-lg md:text-xl text-slate-400 max-w-2xl leading-relaxed">
-            Dive into deep technical tutorials, system architecture breakdowns, and the latest techniques in connecting robust backends with modern intelligent agents.
-          </p>
+        <div className="mx-auto max-w-7xl relative z-10 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div className="text-left">
+            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 text-slate-100">
+              Architect the <br />
+              <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-teal-400 bg-clip-text text-transparent">
+                Future of Web.
+              </span>
+            </h1>
+            <p className="text-lg md:text-xl text-slate-400 max-w-2xl leading-relaxed">
+              Dive into deep technical tutorials, system architecture breakdowns, and the latest techniques in connecting robust backends with modern intelligent agents.
+            </p>
+          </div>
+
+          <div className="flex justify-center md:justify-end">
+            <div className="w-full h-auto max-w-sm md:max-w-md lg:max-w-lg aspect-square">
+              <LottiePlayer 
+                animationData={animationData} 
+                loop={true} 
+                className="w-full h-full"
+              />
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Main Content */}
       <main className="mx-auto max-w-7xl px-6">
         <div className="flex items-center justify-between mb-8 border-b border-slate-800 pb-4">
           <h2 className="text-2xl font-bold text-slate-100">Latest Publications</h2>
           <span className="text-sm font-medium text-slate-500">{blogs.length} Articles</span>
         </div>
 
-        {/* Status States */}
         {loading && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3].map((n) => (
@@ -70,7 +83,6 @@ export default function Home() {
           </div>
         )}
 
-        {/* Blog Grid */}
         {!loading && !error && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {blogs.map((blog) => (
