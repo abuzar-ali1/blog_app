@@ -101,10 +101,10 @@ export default function Header() {
                   Log in
                 </Link>
                 <Link 
-                  to="/auth" 
+                  to="https://abuzarali.dev/" 
                   className="rounded-full bg-slate-100 px-5 py-2 text-sm font-semibold text-slate-900 shadow-sm hover:bg-white transition-all"
                 >
-                  Sign up
+                  Developer
                 </Link>
               </div>
             )}
