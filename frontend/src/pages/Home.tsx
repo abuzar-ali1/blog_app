@@ -19,11 +19,27 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  useEffect(() => {
+useEffect(() => {
     const fetchBlogs = async () => {
       try {
         const response = await apiClient.get('/blogs/'); 
-        setBlogs(response.data);
+        
+        // 1. Log the data so you can see EXACTLY what Django is sending in your browser console
+        console.log("Django API Response:", response.data);
+
+        // 2. Check if Django paginated the response (extract the 'results' array)
+        const blogData = response.data.results ? response.data.results : response.data;
+
+        // 3. Safety Check: Only set the blogs if it is definitely an Array
+        if (Array.isArray(blogData)) {
+          setBlogs(blogData);
+        } else {
+          // If it's still not an array, show an error instead of crashing the whole page
+          console.error("Expected an array of blogs, but got:", response.data);
+          setError("Received unexpected data format from the server.");
+          setBlogs([]);
+        }
+
       } catch (err) {
         setError('Failed to load the feed. Is your Django server running?');
       } finally {
