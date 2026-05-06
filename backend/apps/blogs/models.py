@@ -18,7 +18,7 @@ class Comment(models.Model):
 
 class Blog(models.Model):
     title = models.CharField(("Title"), max_length=50)
-    desc = models.TextField(("Description"), max_length=500)
+    desc = models.TextField(("Description"), max_length=5000)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='blogs', default=None, blank=True)
