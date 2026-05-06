@@ -9,11 +9,15 @@ https://docs.djangoproject.com/en/6.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
-
+from dotenv import load_dotenv
 from pathlib import Path
 from datetime import timedelta
 import os
 import dj_database_url
+
+
+load_dotenv()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -134,11 +138,10 @@ REST_FRAMEWORK = {
 import dj_database_url
 import os
 
-# Uses Neon if the environment variable exists, otherwise falls back to local SQLite
 DATABASES = {
     'default': dj_database_url.config(
-        default=f"sqlite:///{os.path.join(BASE_DIR, 'db.sqlite3')}",
-        conn_max_age=600
+        conn_max_age=600,
+        conn_health_checks=True,
     )
 }
 
