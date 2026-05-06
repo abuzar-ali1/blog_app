@@ -7,8 +7,7 @@ interface BlogDetailData {
   title: string;
   desc: string;
   created_at: string;
-  // If your Django serializer includes the author's username, you can add it here:
-  // author_username?: string; 
+
 }
 
 export default function BlogDetail() {

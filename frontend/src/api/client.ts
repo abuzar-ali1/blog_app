@@ -1,8 +1,8 @@
 import axios from "axios";
+import process from "process";
 
 
-const API_BASE_URL = "http://localhost:8000/api"; 
-
+const API_BASE_URL = process.env.API_BASE_URL;
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,
   headers: {

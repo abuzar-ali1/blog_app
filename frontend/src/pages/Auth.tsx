@@ -1,7 +1,10 @@
-import { useState, FormEvent } from 'react';
+import { useState,} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { apiClient } from '../api/client';
+import type {FormEvent} from 'react';
+
+
 
 export default function Auth() {
   const navigate = useNavigate();
